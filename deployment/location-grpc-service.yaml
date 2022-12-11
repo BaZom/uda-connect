@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: location-grpc-service
+  name: location-grpc-service
+spec:
+  ports:
+  - name: "5000"
+    port: 5000
+    targetPort: 5000
+    nodePort: 30005
+  selector:
+    service: location-grpc-service
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: location-grpc-service
+  name: location-grpc-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: location-grpc-service
+  template:
+    metadata:
+      labels:
+        service: location-grpc-service
+    spec:
+      containers:
+      - image: bazom/nd064-location-grpc-service:latest
+        name: location-grpc-service
+        imagePullPolicy: Always
+        env:
+        - name: TOPIC_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: kafka-env
+              key: TOPIC_NAME
+        - name: KAFKA_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: kafka-env
+              key: KAFKA_SERVER
+      restartPolicy: Always

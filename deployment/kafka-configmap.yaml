@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  TOPIC_NAME: "locations"
+  KAFKA_SERVER: "kafka-release-0.kafka-release-headless.default.svc.cluster.local:9092"
+metadata:
+  name: kafka-env
