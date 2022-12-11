@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+  title: udaconnect openAPI Sepcification
+  description: Udaconnect udacity project
+  version: 1.0.0
+paths:
+  /persons:
+    post:
+      tags:
+      - Persons
+      description: creating a new person
+      responses:
+        "200":
+          description: person successfully created 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSchema'
+  /persons/:
+    get:
+      tags:
+      - Persons
+      description: retrieve all persons
+      responses:
+        "200":
+          description: all persons successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSchema'
+  /persons/{person_id}:
+    get:
+      tags:
+      - Persons
+      description: retrieve person by person_id
+      parameters:
+      - name: person_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: person data successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSchema'
+  /persons/{person_id}/connection:
+    get:
+      tags:
+      - Connection
+      description: retrieve person's connections with other persons
+      parameters:
+      - name: start_date
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: object
+      - name: end_date
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: object
+      - name: distance
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+      - name: person_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionSchema'
+components:
+  schemas:
+    PersonSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company_name:
+          type: string
+    ConnectionSchema:
+      type: object
+      properties:
+        location:
+          type: object
+        person:
+          type: object
+    LocationSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+        person_id:
+          type: integer
+        longitude:
+          type: string
+        latitude:
+          type: string
+        creation_time:
+          type: object      
