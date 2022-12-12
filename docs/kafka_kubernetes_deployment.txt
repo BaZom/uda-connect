@@ -1,0 +1,20 @@
+Kafka can be deployed on kubernetes using the following steps.
+
+- Generating kafka deployment file using helm
+	1. Install Helm on your computer -> In Windows, using Choco (the easiest way)
+		$ choco install Kubernetes-helm
+	2. run the commands:
+		$ helm repo add bitnami ‌https://charts.bitnami.com/bitnami‌
+        $ helm repo update
+		$ helm template kafka bitnami/kafka --set volumePermissions.enabled=true --set zookeeper.volumePermissions.enabled=true > kafka yaml
+	3. deploy the generated kafka.yaml
+		$ kubectl apply -f deployment/kafka.yaml
+	4. test kafka using kubectlz
+		- connect to kafka-0 pod
+			$ kubectl exec -it kafka-0 sh
+		- create topic:
+			$ kafka-topics.sh --create --bootstrap-server kafka-headless:9092 --replication-factor 1 --partitions 1 --topic locations
+		- create producer:
+			$ kafka-console-producer.sh --topic locations --bootstrap-server kafka-headless:9092
+		- create consumer:
+			$ kafka-console-consumer.sh --bootstrap-server kafka-headless:9092 --topic locations --from-beginning
