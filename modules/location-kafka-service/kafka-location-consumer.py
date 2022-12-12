@@ -6,7 +6,6 @@ from geoalchemy2.functions import ST_AsText, ST_Point
 import datetime
 
 
-
 # defined in deployment
 DB_USERNAME = os.environ["DB_USERNAME"]
 DB_PASSWORD = os.environ["DB_PASSWORD"]
@@ -17,14 +16,11 @@ TOPIC_NAME = os.environ["TOPIC_NAME"]
 KAFKA_SERVER = os.environ["KAFKA_SERVER"]
 
 
-consumer = KafkaConsumer(TOPIC_NAME)
+consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=[KAFKA_SERVER])
 for message in consumer:
     decoded_kafka_meassage = message.value.decode('utf-8')
     location_dict = json.loads(decoded_kafka_meassage)
-
     print(location_dict['longitude'])
-
-
     conn = psycopg2.connect(host=DB_HOST,
                             port=DB_PORT,
                             user=DB_USERNAME,
@@ -36,4 +32,3 @@ for message in consumer:
     conn.commit()
     cursor.close()
     conn.close()
-

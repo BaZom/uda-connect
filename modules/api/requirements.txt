@@ -1,6 +1,0 @@
-grpcio==1.51.1
-grpcio-tools==1.51.1
-kafka-python==2.0.2
-protobuf==4.21.11
-psycopg2-binary==2.8.5
-marshmallow==3.7.1

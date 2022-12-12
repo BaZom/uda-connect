@@ -7,7 +7,7 @@ import location_pb2_grpc
 import json
 from kafka import KafkaProducer
 import datetime
-
+import os
 
 #TOPIC_NAME = 'locations'
 #KAFKA_SERVER = 'localhost:9092'
