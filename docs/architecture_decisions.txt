@@ -1,0 +1,7 @@
+Three message passing techniques are used to refactor udaconnect to a mircoservices architecture.
+
+location service: 
+  - gRPC combined with kafa are used to create the location service. gRPC as a good candidte for streaming is used to collect location data and forward them further to a kafka server.
+  - kafka as a powerful message queue tools is used to receive messages from gRPC in a topic and forward the dataload to the database to create the locations.
+REST-API as a good candidate for a great deal of flexibility is used for the person and connection services.REST can handle multiple types of calls 
+and return different data formats.
