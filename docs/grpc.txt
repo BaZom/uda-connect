@@ -1,0 +1,16 @@
+gRPC is used for the location service. The following files can be found in module location-grpc-service 
+
+- location.proto
+	The proto definition of the location
+	
+- location_pb2_grpc.py and location_pb2.py 
+	They are generated using grpc_tools and and the following python command:
+		$ python -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ location.proto
+	They contain the defined functionalliteis generated using location.proto files
+	
+- forward-to-kafka.py
+	It works as a consumer for the location gRPC. It reads the location data and forwards the data to kafka, which can be used in a kafka consumer in order to 
+	create a location in the database
+	
+- test-location-generator.py
+	It is a gRPC producer which contains a hard-coded location message data.Using a gRPC stub the data is created and can be read by the consumer
